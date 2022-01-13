@@ -4,6 +4,8 @@
 package Lab3_200516672_Silva;
 import java.util.Date;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Scanner;
 public class App {
     public String getGreeting() {
         return "Hello World!";
@@ -15,18 +17,23 @@ public class App {
         Date fecha = new Date();
         String onlineUser = "Pedro";
         Documento doc1 = new Documento(0,"Documento1","Texto1",fecha,fecha);
-        System.out.println("### EDITOR COLABORATIVO ###\n" +
-                            "## Registrado como: "+ onlineUser + " ##\n" +
-                            "Escoja su opción:\n" +
-                            "1. Crear nuevo documento\n" +
-                            "2. Compartir documento\n" +
-                            "3. Agregar contenido a un documento\n" +
-                            "4. Restaurar versión de un documento\n" +
-                            "5. Revocar acceso a un documento\n" +
-                            "6. Buscar en los documentos\n" +
-                            "7. Visualizar documentos\n" +
-                            "8. Cerrar sesión\n" +
-                            "9. Cerrar el programa\n" +
-                            "INTRODUZCA SU OPCIÓN: _ ");
+        ArrayList<ArrayList<Integer>> prueba = new ArrayList<ArrayList<Integer>>();
+        ArrayList<ArrayList<Integer> > x = new ArrayList<ArrayList<Integer> >();
+        x.add(new ArrayList<Integer>());
+        x.get(0).add(0, 3);
+        x.get(0).add(0, 4);
+        x.add(new ArrayList<Integer>(Arrays.asList(5,6)));
+        ArrayList<Usuario> usuarios = new ArrayList<>();
+        Usuario user1 = new Usuario("Juan", "Clave", fecha);
+        Usuario user2 = new Usuario("Pedro", "Clave2", fecha);
+        for(int i=0; i<usuarios.size();i++){
+            System.out.println(usuarios.get(i).getUsername());
+        }
+        Controlador controller = new Controlador();
+        controller.Menu();
+        
+
+        
+        
     }
 }
