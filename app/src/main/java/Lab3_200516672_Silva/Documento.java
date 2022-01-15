@@ -55,7 +55,7 @@ public class Documento {
     public ArrayList<Acceso> getAccesos() {
         return accesos;
     }
-
+    
     public void setIdDoc(int IdDoc) {
         this.IdDoc = IdDoc;
     }

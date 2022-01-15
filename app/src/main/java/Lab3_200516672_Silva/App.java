@@ -12,28 +12,9 @@ public class App {
     }
 
     public static void main(String[] args) {
-        Acceso acceso1 = new Acceso("Juan", true, false, true);
-        Acceso acceso2 = new Acceso("Juan", false, true, false);
-        Date fecha = new Date();
-        String onlineUser = "Pedro";
-        Documento doc1 = new Documento(0,"Documento1","Texto1",fecha,fecha);
-        ArrayList<ArrayList<Integer>> prueba = new ArrayList<ArrayList<Integer>>();
-        ArrayList<ArrayList<Integer> > x = new ArrayList<ArrayList<Integer> >();
-        x.add(new ArrayList<Integer>());
-        x.get(0).add(0, 3);
-        x.get(0).add(0, 4);
-        x.add(new ArrayList<Integer>(Arrays.asList(5,6)));
-        ArrayList<Usuario> usuarios = new ArrayList<>();
-        Usuario user1 = new Usuario("Juan", "Clave", fecha);
-        Usuario user2 = new Usuario("Pedro", "Clave2", fecha);
-        for(int i=0; i<usuarios.size();i++){
-            System.out.println(usuarios.get(i).getUsername());
-        }
         Controlador controller = new Controlador();
         controller.Menu();
-        
 
-        
         
     }
 }

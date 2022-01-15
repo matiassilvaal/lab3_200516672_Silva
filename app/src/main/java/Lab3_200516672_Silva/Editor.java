@@ -25,6 +25,15 @@ public class Editor {
         return documentos;
     }
 
+    public int getLastIdDoc(){
+        if(getDocumentos().isEmpty()){
+            return -1;
+        }
+        int i = getDocumentos().size() - 1;
+        int j = getDocumentos().get(i).getIdDoc();
+        return j;
+    }
+           
     public void setUsuarios(ArrayList<Usuario> usuarios) {
         this.usuarios = usuarios;
     }
