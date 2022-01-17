@@ -90,6 +90,9 @@ public class Controlador{
                 String textoDoc = paso2.nextLine();
                 create(nombreDoc, textoDoc);
             }
+            else if(respuesta == 2){
+                
+            }
             if(respuesta == 10){
                 System.out.println(plataforma.getDocumentos().toString());
             }
@@ -143,5 +146,61 @@ public class Controlador{
         int i = plataforma.getLastIdDoc()+1;
         Documento nuevoDoc = new Documento(i, nombreDoc, textoDoc, new Date(), new Date());
         plataforma.getDocumentos().add(nuevoDoc);
+    }
+    public void share(ArrayList<String>usuarios, int idDoc, String permiso){
+        for(int i=1; i < usuarios.size(); i+=1){
+            for(int j=0; j < plataforma.getDocumentos().size(); j+=1){
+                if(idDoc == plataforma.getDocumentos().get(i).getIdDoc()){
+                    if(plataforma.getDocumentos().get(i).getAccesos().isEmpty()){
+                        if(permiso.equals("w")){
+                            Acceso newAcceso = new Acceso(getOnlineUser(), true, false, false);
+                            plataforma.getDocumentos().get(i).getAccesos().add(newAcceso);
+                            return ;
+                        }
+                        else if(permiso.equals("r")){
+                            Acceso newAcceso = new Acceso(getOnlineUser(), false, true, false);
+                            plataforma.getDocumentos().get(i).getAccesos().add(newAcceso);
+                            return ;
+                        }
+                        if(permiso.equals("c")){
+                            Acceso newAcceso = new Acceso(getOnlineUser(), false, false, true);
+                            plataforma.getDocumentos().get(i).getAccesos().add(newAcceso);
+                            return ;
+                        }
+                    }
+                    for(int k=0; k < plataforma.getDocumentos().get(i).getAccesos().size(); k+=1){
+                        if(getOnlineUser() == plataforma.getDocumentos().get(i).getAccesos().get(k).getNombre()){
+                            if(permiso.equals("w")){
+                                plataforma.getDocumentos().get(i).getAccesos().get(k).setEscritura(true);
+                                return ;
+                            }
+                            else if(permiso.equals("r")){
+                                plataforma.getDocumentos().get(i).getAccesos().get(k).setLectura(true);
+                                return ;
+                            }
+                            else if(permiso.equals("c")){
+                                plataforma.getDocumentos().get(i).getAccesos().get(k).setComentario(true);
+                                return ;
+                            }
+                        }
+                    }
+                    if(permiso.equals("w")){
+                        Acceso newAcceso = new Acceso(getOnlineUser(), true, false, false);
+                        plataforma.getDocumentos().get(i).getAccesos().add(newAcceso);
+                        return ;
+                    }
+                    else if(permiso.equals("r")){
+                        Acceso newAcceso = new Acceso(getOnlineUser(), false, true, false);
+                        plataforma.getDocumentos().get(i).getAccesos().add(newAcceso);
+                        return ;
+                    }
+                    if(permiso.equals("c")){
+                        Acceso newAcceso = new Acceso(getOnlineUser(), false, false, true);
+                        plataforma.getDocumentos().get(i).getAccesos().add(newAcceso);
+                        return ;
+                    }
+                }
+            }
+        }
     }
 }

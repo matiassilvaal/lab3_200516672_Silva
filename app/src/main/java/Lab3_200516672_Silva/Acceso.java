@@ -12,13 +12,13 @@ public class Acceso {
     private String nombre;
     private boolean lectura;
     private boolean escritura;
-    private boolean comentarios;
+    private boolean comentario;
 
-    public Acceso(String nombre, boolean lectura, boolean escritura, boolean comentarios) {
+    public Acceso(String nombre, boolean lectura, boolean escritura, boolean comentario) {
         this.nombre = nombre;
         this.lectura = lectura;
         this.escritura = escritura;
-        this.comentarios = comentarios;
+        this.comentario = comentario;
     }
 
     public String getNombre() {
@@ -33,8 +33,8 @@ public class Acceso {
         return escritura;
     }
 
-    public boolean isComentarios() {
-        return comentarios;
+    public boolean isComentario() {
+        return comentario;
     }
 
     public void setNombre(String nombre) {
@@ -49,8 +49,8 @@ public class Acceso {
         this.escritura = escritura;
     }
 
-    public void setComentarios(boolean comentarios) {
-        this.comentarios = comentarios;
+    public void setComentario(boolean comentario) {
+        this.comentario = comentario;
     }
     @Override
     public String toString() {
