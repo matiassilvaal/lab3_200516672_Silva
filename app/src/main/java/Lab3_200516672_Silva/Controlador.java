@@ -34,6 +34,10 @@ public class Controlador {
     }
 
     public void Menu() {
+        Scanner myInput = new Scanner(System.in);
+        Scanner paso1 = new Scanner(System.in);
+        Scanner paso2 = new Scanner(System.in);
+        Scanner paso3 = new Scanner(System.in);
         if (getOnlineUser() == "") {
             System.out.println("### EDITOR COLABORATIVO ###\n" +
                     "Escoja su opcion:\n" +
@@ -43,21 +47,22 @@ public class Controlador {
                     "INTRODUZCA SU OPCION: _ ");
             int respuesta = 0;
             try {
-                Scanner myInput = new Scanner(System.in);
                 respuesta = myInput.nextInt();
             } catch (Exception e) {
                 System.out.println("Debes ingresar una opcion numerica");
+
             }
             if (respuesta == 1 || respuesta == 2) {
                 authentication(respuesta);
-                Menu();
             } else if (respuesta == 3) {
-
+                myInput.close();
+                paso1.close();
+                paso2.close();
+                paso3.close();
                 return;
-            } else {
-                System.out.println(respuesta);
-                Menu();
             }
+            Menu();
+
         } else {
             System.out.println("### EDITOR COLABORATIVO ###\n" +
                     "## Registrado como: " + getOnlineUser() + " ##\n" +
@@ -74,7 +79,6 @@ public class Controlador {
                     "INTRODUZCA SU OPCION: _ ");
             int respuesta = 0;
             try {
-                Scanner myInput = new Scanner(System.in);
                 respuesta = myInput.nextInt();
             } catch (Exception e) {
                 System.out.println("Debes ingresar una opcion numerica");
@@ -82,18 +86,15 @@ public class Controlador {
             if (respuesta == 1) {
                 System.out.println("### EDITOR COLABORATIVO ###\n" +
                         "Ingrese un nombre para el documento:\n");
-                Scanner paso1 = new Scanner(System.in);
+
                 String nombreDoc = paso1.nextLine();
                 System.out.println("### EDITOR COLABORATIVO ###\n" +
                         "Ingrese un texto para el documento:\n");
-                Scanner paso2 = new Scanner(System.in);
                 String textoDoc = paso2.nextLine();
                 create(nombreDoc, textoDoc);
-            } 
-            else if (respuesta == 2) {
+            } else if (respuesta == 2) {
                 System.out.println("### EDITOR COLABORATIVO ###\n" +
                         "Ingrese el nombre de algun usuario (Ingrese _ para terminar):\n");
-                Scanner paso1 = new Scanner(System.in);
                 ArrayList<String> usuarios = new ArrayList<String>();
                 while (paso1.hasNextLine()) {
                     String nombre = paso1.nextLine();
@@ -104,37 +105,52 @@ public class Controlador {
                 }
                 System.out.println("### EDITOR COLABORATIVO ###\n" +
                         "Ingrese la id del documento:\n");
-                Scanner paso2 = new Scanner(System.in);
                 int idDoc = paso2.nextInt();
                 if (checkOwnership(idDoc)) {
                     System.out.println("### EDITOR COLABORATIVO ###\n" +
                             "Ingrese un permiso (Permisos disponibles: w: write, r: read, c: comment):\n");
-                    Scanner paso3 = new Scanner(System.in);
+
                     String permiso = paso3.nextLine();
                     share(usuarios, idDoc, permiso);
-                } 
-                else {
+                } else {
                     System.out.println("El documento no existe o no eres el duenio de ese documento.\n");
                 }
 
-            }
-            else if (respuesta == 3){
+            } else if (respuesta == 3) {
                 System.out.println("### EDITOR COLABORATIVO ###\n" +
                         "Ingrese la id del documento:\n");
-                Scanner paso1 = new Scanner(System.in);
                 int idDoc = paso1.nextInt();
                 if (checkOwnership(idDoc) || checkWritePermission(idDoc)) {
                     System.out.println("### EDITOR COLABORATIVO ###\n" +
                             "Ingrese un texto a agregar:\n");
-                    Scanner paso2 = new Scanner(System.in);
                     String texto = paso2.nextLine();
                     add(idDoc, texto);
-                } 
-                else {
+                } else {
                     System.out.println("El documento no existe o no tienes permisos para escribir en el.\n");
                 }
-            }
-            else if (respuesta == 9){
+            } else if (respuesta == 4) {
+                System.out.println("### EDITOR COLABORATIVO ###\n" +
+                        "Ingrese la id del documento:\n");
+                int idDoc = paso1.nextInt();
+                if (checkOwnership(idDoc)) {
+                    System.out.println("### EDITOR COLABORATIVO ###\n" +
+                            "Ingrese la id de la version a restaurar:\n");
+                    int idVersion = paso2.nextInt();
+                    rollback(idDoc, idVersion);
+                } else {
+                    System.out.println("El documento no existe o no eres el duenio de este.\n");
+                }
+
+            } else if (respuesta == 5) {
+                System.out.println("### EDITOR COLABORATIVO ###\n" +
+                        "Ingrese la id del documento:\n");
+                int idDoc = paso1.nextInt();
+                if (checkOwnership(idDoc)) {
+                    revokeAccess(idDoc);
+                } else {
+                    System.out.println("El documento no existe o no eres el duenio de este.\n");
+                }
+            } else if (respuesta == 9) {
                 setOnlineUser("");
             }
 
@@ -144,28 +160,35 @@ public class Controlador {
             }
             Menu();
         }
-
+        myInput.close();
+        paso1.close();
+        paso2.close();
+        paso3.close();
     }
 
     public boolean checkOwnership(int idDoc) {
         for (int i = 0; i < plataforma.getUsuarios().size(); i++) {
-            if (plataforma.getUsuarios().get(i).getDocumentos().contains(idDoc) && plataforma.getUsuarios().get(i).getUsername().equals(getOnlineUser())) {
+            if (plataforma.getUsuarios().get(i).getDocumentos().contains(idDoc)
+                    && plataforma.getUsuarios().get(i).getUsername().equals(getOnlineUser())) {
                 return true;
             }
         }
         return false;
     }
 
-    public boolean checkWritePermission(int idDoc){
+    public boolean checkWritePermission(int idDoc) {
         for (int i = 0; i < plataforma.getDocumentos().size(); i++) {
             for (int j = 0; j < plataforma.getDocumentos().get(i).getAccesos().size(); j++) {
-                if(plataforma.getDocumentos().get(i).getAccesos().get(j).getNombre().equals(getOnlineUser()) && plataforma.getDocumentos().get(i).getAccesos().get(j).isEscritura() && idDoc == plataforma.getDocumentos().get(i).getIdDoc()){
+                if (plataforma.getDocumentos().get(i).getAccesos().get(j).getNombre().equals(getOnlineUser())
+                        && plataforma.getDocumentos().get(i).getAccesos().get(j).isEscritura()
+                        && idDoc == plataforma.getDocumentos().get(i).getIdDoc()) {
                     return true;
                 }
             }
         }
         return false;
     }
+
     public void authentication(int respuesta) {
         if (respuesta == 1) {
             System.out.println("### EDITOR COLABORATIVO ###\n" +
@@ -226,33 +249,27 @@ public class Controlador {
                 if (idDoc == plataforma.getDocumentos().get(j).getIdDoc()) {
                     if (plataforma.getDocumentos().get(j).getAccesos().isEmpty()) {
                         if (permiso.equals("w")) {
-                            System.out.print("1.1");
                             Acceso newAcceso = new Acceso(usuarios.get(i), false, true, false);
                             plataforma.getDocumentos().get(j).getAccesos().add(newAcceso);
                         } else if (permiso.equals("r")) {
-                            System.out.print("1.2");
                             Acceso newAcceso = new Acceso(usuarios.get(i), true, false, false);
                             plataforma.getDocumentos().get(j).getAccesos().add(newAcceso);
-                        }
-                        else if (permiso.equals("c")) {
-                            System.out.print(usuarios.get(i)+"\n");
+                        } else if (permiso.equals("c")) {
+                            System.out.print(usuarios.get(i) + "\n");
                             Acceso newAcceso = new Acceso(usuarios.get(i), false, false, true);
-                            System.out.print(newAcceso+"\n");
                             plataforma.getDocumentos().get(j).getAccesos().add(newAcceso);
                         }
                     } else {
                         for (int k = 0; k < plataforma.getDocumentos().get(j).getAccesos().size(); k += 1) {
-                            if (getOnlineUser() == plataforma.getDocumentos().get(j).getAccesos().get(k).getNombre()) {
+                            if (usuarios.get(i)
+                                    .equals(plataforma.getDocumentos().get(j).getAccesos().get(k).getNombre())) {
                                 if (permiso.equals("w")) {
-                                    System.out.print("2.1");
                                     plataforma.getDocumentos().get(j).getAccesos().get(k).setEscritura(true);
                                     noExiste = true;
                                 } else if (permiso.equals("r")) {
-                                    System.out.print("2.2");
                                     plataforma.getDocumentos().get(j).getAccesos().get(k).setLectura(true);
                                     noExiste = true;
                                 } else if (permiso.equals("c")) {
-                                    System.out.print("2.3");
                                     plataforma.getDocumentos().get(j).getAccesos().get(k).setComentario(true);
                                     noExiste = true;
                                 }
@@ -260,16 +277,12 @@ public class Controlador {
                         }
                         if (noExiste == false) {
                             if (permiso.equals("w")) {
-                                System.out.print("3.1");
                                 Acceso newAcceso = new Acceso(usuarios.get(i), false, true, false);
                                 plataforma.getDocumentos().get(j).getAccesos().add(newAcceso);
                             } else if (permiso.equals("r")) {
-                                System.out.print("3.2");
                                 Acceso newAcceso = new Acceso(usuarios.get(i), true, false, false);
                                 plataforma.getDocumentos().get(j).getAccesos().add(newAcceso);
-                            }
-                            else if (permiso.equals("c")) {
-                                System.out.print("3.3");
+                            } else if (permiso.equals("c")) {
                                 Acceso newAcceso = new Acceso(usuarios.get(i), false, false, true);
                                 plataforma.getDocumentos().get(j).getAccesos().add(newAcceso);
                             }
@@ -286,7 +299,26 @@ public class Controlador {
             if (idDoc == plataforma.getDocumentos().get(i).getIdDoc()) {
                 plataforma.getDocumentos().get(i).setFechaDeModificacion(new Date());
                 plataforma.getDocumentos().get(i).getVersiones().add(plataforma.getDocumentos().get(i).getTextoDoc());
-                plataforma.getDocumentos().get(i).setTextoDoc(plataforma.getDocumentos().get(i).getTextoDoc()+Texto);   
+                plataforma.getDocumentos().get(i).setTextoDoc(plataforma.getDocumentos().get(i).getTextoDoc() + Texto);
+            }
+        }
+    }
+
+    public void rollback(int idDoc, int idVersion) {
+        for (int i = 0; i < plataforma.getDocumentos().size(); i++) {
+            if (idDoc == plataforma.getDocumentos().get(i).getIdDoc()) {
+                plataforma.getDocumentos().get(i).setFechaDeModificacion(new Date());
+                plataforma.getDocumentos().get(i).getVersiones().add(plataforma.getDocumentos().get(i).getTextoDoc());
+                plataforma.getDocumentos().get(i)
+                        .setTextoDoc(plataforma.getDocumentos().get(i).getVersiones().get(idVersion));
+            }
+        }
+    }
+
+    public void revokeAccess(int idDoc) {
+        for (int i = 0; i < plataforma.getDocumentos().size(); i++) {
+            if (idDoc == plataforma.getDocumentos().get(i).getIdDoc()) {
+                plataforma.getDocumentos().get(i).setAccesos(new ArrayList<Acceso>());
             }
         }
     }

@@ -52,11 +52,10 @@ public class Acceso {
     public void setComentario(boolean comentario) {
         this.comentario = comentario;
     }
+
     @Override
     public String toString() {
-        String resultado1 = lectura ? "si" : "no";
-        String resultado2 = escritura ? "si" : "no";
-        String resultado3 = lectura ? "si" : "no";
-        return "Acceso:" + nombre + ", lectura=" + resultado1 + ", escritura=" + resultado2 + ", comentarios=" + resultado3 + '\n';
+        return "Acceso:" + "nombre:" + nombre + ", lectura:" + lectura + ", escritura:" + escritura + ", comentario:" + comentario + '\n';
     }
+
 }
