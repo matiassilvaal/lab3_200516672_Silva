@@ -15,7 +15,7 @@ public class Documento {
     private String textoDoc;
     private Date fechaDeCreacion;
     private Date fechaDeModificacion;
-    private ArrayList<Version> versiones;
+    private ArrayList<String> versiones;
     private ArrayList<Acceso> accesos;
 
     public Documento(int IdDoc, String nombreDoc, String textoDoc, Date fechaDeCreacion, Date fechaDeModificacion) {
@@ -48,7 +48,7 @@ public class Documento {
         return fechaDeModificacion;
     }
 
-    public ArrayList<Version> getVersiones() {
+    public ArrayList<String> getVersiones() {
         return versiones;
     }
 
@@ -76,7 +76,7 @@ public class Documento {
         this.fechaDeModificacion = fechaDeModificacion;
     }
 
-    public void setVersiones(ArrayList<Version> versiones) {
+    public void setVersiones(ArrayList<String> versiones) {
         this.versiones = versiones;
     }
 
