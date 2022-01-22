@@ -14,6 +14,13 @@ public class Acceso {
     private boolean escritura;
     private boolean comentario;
 
+    /**
+     *
+     * @param nombre
+     * @param lectura
+     * @param escritura
+     * @param comentario
+     */
     public Acceso(String nombre, boolean lectura, boolean escritura, boolean comentario) {
         this.nombre = nombre;
         this.lectura = lectura;
@@ -21,34 +28,66 @@ public class Acceso {
         this.comentario = comentario;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getNombre() {
         return nombre;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean isLectura() {
         return lectura;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean isEscritura() {
         return escritura;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean isComentario() {
         return comentario;
     }
 
+    /**
+     *
+     * @param nombre
+     */
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
+    /**
+     *
+     * @param lectura
+     */
     public void setLectura(boolean lectura) {
         this.lectura = lectura;
     }
 
+    /**
+     *
+     * @param escritura
+     */
     public void setEscritura(boolean escritura) {
         this.escritura = escritura;
     }
 
+    /**
+     *
+     * @param comentario
+     */
     public void setComentario(boolean comentario) {
         this.comentario = comentario;
     }

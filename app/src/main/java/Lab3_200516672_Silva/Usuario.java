@@ -15,6 +15,12 @@ public class Usuario {
     private Date date;
     private ArrayList<Integer>documentos;
 
+    /**
+     *
+     * @param username
+     * @param password
+     * @param date
+     */
     public Usuario(String username, String password, Date date) {
         this.username = username;
         this.password = password;
@@ -22,34 +28,66 @@ public class Usuario {
         this.documentos = new ArrayList<>();
     }
 
+    /**
+     *
+     * @return
+     */
     public String getUsername() {
         return username;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getPassword() {
         return password;
     }
 
+    /**
+     *
+     * @return
+     */
     public Date getDate() {
         return date;
     }
 
+    /**
+     *
+     * @return
+     */
     public ArrayList<Integer> getDocumentos() {
         return documentos;
     }
 
+    /**
+     *
+     * @param username
+     */
     public void setUsername(String username) {
         this.username = username;
     }
 
+    /**
+     *
+     * @param password
+     */
     public void setPassword(String password) {
         this.password = password;
     }
 
+    /**
+     *
+     * @param date
+     */
     public void setDate(Date date) {
         this.date = date;
     }
 
+    /**
+     *
+     * @param documentos
+     */
     public void setDocumentos(ArrayList<Integer> documentos) {
         this.documentos = documentos;
     }

@@ -12,19 +12,34 @@ public class Editor {
     private ArrayList<Usuario> usuarios;
     private ArrayList<Documento> documentos;
 
+    /**
+     *
+     */
     public Editor() {
         this.usuarios = new ArrayList<>();
         this.documentos = new ArrayList<>();
     }
 
+    /**
+     *
+     * @return
+     */
     public ArrayList<Usuario> getUsuarios() {
         return usuarios;
     }
 
+    /**
+     *
+     * @return
+     */
     public ArrayList<Documento> getDocumentos() {
         return documentos;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getLastIdDoc(){
         if(getDocumentos().isEmpty()){
             return -1;
@@ -34,10 +49,18 @@ public class Editor {
         return j;
     }
            
+    /**
+     *
+     * @param usuarios
+     */
     public void setUsuarios(ArrayList<Usuario> usuarios) {
         this.usuarios = usuarios;
     }
 
+    /**
+     *
+     * @param documentos
+     */
     public void setDocumentos(ArrayList<Documento> documentos) {
         this.documentos = documentos;
     }

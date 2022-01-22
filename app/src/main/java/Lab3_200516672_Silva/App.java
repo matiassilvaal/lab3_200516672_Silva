@@ -6,7 +6,17 @@ import java.util.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
+
+/**
+ *
+ * @author Matias
+ */
 public class App {
+
+    /**
+     *
+     * @param args
+     */
     public static void main(String[] args) {
         Controlador controller = new Controlador();
         controller.Menu();

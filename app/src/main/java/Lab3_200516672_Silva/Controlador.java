@@ -16,23 +16,41 @@ public class Controlador {
     private String onlineUser;
     private Editor plataforma;
 
+    /**
+     *
+     */
     public Controlador() {
         plataforma = new Editor();
         onlineUser = "";
     }
 
+    /**
+     *
+     * @return
+     */
     public Editor getPlataforma() {
         return plataforma;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getOnlineUser() {
         return onlineUser;
     }
 
+    /**
+     *
+     * @param onlineUser
+     */
     public void setOnlineUser(String onlineUser) {
         this.onlineUser = onlineUser;
     }
 
+    /**
+     *
+     */
     public void Menu() {
         Scanner myInput = new Scanner(System.in);
         Scanner paso1 = new Scanner(System.in);
@@ -166,6 +184,11 @@ public class Controlador {
         paso3.close();
     }
 
+    /**
+     *
+     * @param idDoc
+     * @return
+     */
     public boolean checkOwnership(int idDoc) {
         for (int i = 0; i < plataforma.getUsuarios().size(); i++) {
             if (plataforma.getUsuarios().get(i).getDocumentos().contains(idDoc)
@@ -176,6 +199,11 @@ public class Controlador {
         return false;
     }
 
+    /**
+     *
+     * @param idDoc
+     * @return
+     */
     public boolean checkWritePermission(int idDoc) {
         for (int i = 0; i < plataforma.getDocumentos().size(); i++) {
             for (int j = 0; j < plataforma.getDocumentos().get(i).getAccesos().size(); j++) {
@@ -189,6 +217,10 @@ public class Controlador {
         return false;
     }
 
+    /**
+     *
+     * @param respuesta
+     */
     public void authentication(int respuesta) {
         if (respuesta == 1) {
             System.out.println("### EDITOR COLABORATIVO ###\n" +
@@ -229,6 +261,11 @@ public class Controlador {
         }
     }
 
+    /**
+     *
+     * @param nombreDoc
+     * @param textoDoc
+     */
     public void create(String nombreDoc, String textoDoc) {
         int i = plataforma.getLastIdDoc() + 1;
         Documento nuevoDoc = new Documento(i, nombreDoc, textoDoc, new Date(), new Date());
@@ -241,6 +278,12 @@ public class Controlador {
         plataforma.getDocumentos().add(nuevoDoc);
     }
 
+    /**
+     *
+     * @param usuarios
+     * @param idDoc
+     * @param permiso
+     */
     public void share(ArrayList<String> usuarios, int idDoc, String permiso) {
         boolean noExiste;
         for (int i = 0; i < usuarios.size(); i += 1) {
@@ -294,6 +337,11 @@ public class Controlador {
         }
     }
 
+    /**
+     *
+     * @param idDoc
+     * @param Texto
+     */
     public void add(int idDoc, String Texto) {
         for (int i = 0; i < plataforma.getDocumentos().size(); i++) {
             if (idDoc == plataforma.getDocumentos().get(i).getIdDoc()) {
@@ -304,6 +352,11 @@ public class Controlador {
         }
     }
 
+    /**
+     *
+     * @param idDoc
+     * @param idVersion
+     */
     public void rollback(int idDoc, int idVersion) {
         for (int i = 0; i < plataforma.getDocumentos().size(); i++) {
             if (idDoc == plataforma.getDocumentos().get(i).getIdDoc()) {
@@ -315,6 +368,10 @@ public class Controlador {
         }
     }
 
+    /**
+     *
+     * @param idDoc
+     */
     public void revokeAccess(int idDoc) {
         for (int i = 0; i < plataforma.getDocumentos().size(); i++) {
             if (idDoc == plataforma.getDocumentos().get(i).getIdDoc()) {

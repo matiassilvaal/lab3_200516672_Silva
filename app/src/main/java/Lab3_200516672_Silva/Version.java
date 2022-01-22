@@ -12,23 +12,44 @@ public class Version {
     private int IdVersion;
     private String textoVersion;
 
+    /**
+     *
+     * @param IdVersion
+     * @param textoVersion
+     */
     public Version(int IdVersion, String textoVersion) {
         this.IdVersion = IdVersion;
         this.textoVersion = textoVersion;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getIdVersion() {
         return IdVersion;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getTextoVersion() {
         return textoVersion;
     }
 
+    /**
+     *
+     * @param IdVersion
+     */
     public void setIdVersion(int IdVersion) {
         this.IdVersion = IdVersion;
     }
 
+    /**
+     *
+     * @param textoVersion
+     */
     public void setTextoVersion(String textoVersion) {
         this.textoVersion = textoVersion;
     }
