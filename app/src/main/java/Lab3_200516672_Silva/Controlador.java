@@ -168,6 +168,11 @@ public class Controlador {
                 } else {
                     System.out.println("El documento no existe o no eres el duenio de este.\n");
                 }
+            } else if (respuesta == 6) {
+                System.out.println("### EDITOR COLABORATIVO ###\n" +
+                        "Ingrese el texto a buscar:\n");
+                String Texto = paso1.nextLine();
+                search(Texto);
             } else if (respuesta == 9) {
                 setOnlineUser("");
             }
@@ -209,6 +214,18 @@ public class Controlador {
             for (int j = 0; j < plataforma.getDocumentos().get(i).getAccesos().size(); j++) {
                 if (plataforma.getDocumentos().get(i).getAccesos().get(j).getNombre().equals(getOnlineUser())
                         && plataforma.getDocumentos().get(i).getAccesos().get(j).isEscritura()
+                        && idDoc == plataforma.getDocumentos().get(i).getIdDoc()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    public boolean checkAnyPermission(int idDoc) {
+        for (int i = 0; i < plataforma.getDocumentos().size(); i++) {
+            for (int j = 0; j < plataforma.getDocumentos().get(i).getAccesos().size(); j++) {
+                if (plataforma.getDocumentos().get(i).getAccesos().get(j).getNombre().equals(getOnlineUser())
+                        && (plataforma.getDocumentos().get(i).getAccesos().get(j).isEscritura() || plataforma.getDocumentos().get(i).getAccesos().get(j).isLectura() || plataforma.getDocumentos().get(i).getAccesos().get(j).isComentario())
                         && idDoc == plataforma.getDocumentos().get(i).getIdDoc()) {
                     return true;
                 }
@@ -376,6 +393,23 @@ public class Controlador {
         for (int i = 0; i < plataforma.getDocumentos().size(); i++) {
             if (idDoc == plataforma.getDocumentos().get(i).getIdDoc()) {
                 plataforma.getDocumentos().get(i).setAccesos(new ArrayList<Acceso>());
+            }
+        }
+    }
+
+    public void search(String text){
+        if(plataforma.getDocumentos().isEmpty()){
+            System.out.println("No existen documentos para buscar\n");
+        }
+        else{
+            System.out.println("El texto ingresado se encuentra en: \n");
+            for(int i = 0; i < plataforma.getDocumentos().size(); i++){
+                if(checkAnyPermission(plataforma.getDocumentos().get(i).getIdDoc()) || checkOwnership(plataforma.getDocumentos().get(i).getIdDoc())){
+                    if(plataforma.getDocumentos().get(i).getTextoDoc().contains(text)){
+                        System.out.println(plataforma.getDocumentos().get(i).getNombreDoc() + "\n");
+                    }
+                    
+                }
             }
         }
     }
