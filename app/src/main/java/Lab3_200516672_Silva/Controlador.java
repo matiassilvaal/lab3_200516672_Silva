@@ -61,7 +61,8 @@ public class Controlador {
                     "Escoja su opcion:\n" +
                     "1. Registrarse\n" +
                     "2. Logearse\n" +
-                    "3. Cerrar el programa\n" +
+                    "3. Visualizar la plataforma\n" +
+                    "4. Cerrar el programa\n" +
                     "INTRODUZCA SU OPCION: _ ");
             int respuesta = 0;
             try {
@@ -73,6 +74,8 @@ public class Controlador {
             if (respuesta == 1 || respuesta == 2) {
                 authentication(respuesta);
             } else if (respuesta == 3) {
+                visualize();
+            } else if (respuesta == 4) {
                 myInput.close();
                 paso1.close();
                 paso2.close();
@@ -93,7 +96,7 @@ public class Controlador {
                     "6. Buscar en los documentos\n" +
                     "7. Visualizar documentos\n" +
                     "8. Cerrar sesion\n" +
-                    "9. Logout\n" +
+                    "9. Cerrar programa\n" +
                     "INTRODUZCA SU OPCION: _ ");
             int respuesta = 0;
             try {
@@ -173,10 +176,18 @@ public class Controlador {
                         "Ingrese el texto a buscar:\n");
                 String Texto = paso1.nextLine();
                 search(Texto);
-            } else if (respuesta == 9) {
+            } else if (respuesta == 7) {
+                visualize();
+            } else if (respuesta == 8) {
                 setOnlineUser("");
             }
-
+            else if (respuesta == 9) {
+                myInput.close();
+                paso1.close();
+                paso2.close();
+                paso3.close();
+                return;
+            }
             else if (respuesta == 10) {
                 System.out.println(plataforma.getDocumentos().toString());
                 System.out.println(plataforma.getUsuarios().toString());
@@ -221,11 +232,33 @@ public class Controlador {
         }
         return false;
     }
+
+    /**
+     *
+     * @param idDoc
+     * @return
+     */
+    public String getOwnership(int idDoc) {
+        for (int i = 0; i < plataforma.getUsuarios().size(); i++) {
+            if (plataforma.getUsuarios().get(i).getDocumentos().contains(idDoc)) {
+                return plataforma.getUsuarios().get(i).getUsername();
+            }
+        }
+        return "";
+    }
+
+    /**
+     *
+     * @param idDoc
+     * @return
+     */
     public boolean checkAnyPermission(int idDoc) {
         for (int i = 0; i < plataforma.getDocumentos().size(); i++) {
             for (int j = 0; j < plataforma.getDocumentos().get(i).getAccesos().size(); j++) {
                 if (plataforma.getDocumentos().get(i).getAccesos().get(j).getNombre().equals(getOnlineUser())
-                        && (plataforma.getDocumentos().get(i).getAccesos().get(j).isEscritura() || plataforma.getDocumentos().get(i).getAccesos().get(j).isLectura() || plataforma.getDocumentos().get(i).getAccesos().get(j).isComentario())
+                        && (plataforma.getDocumentos().get(i).getAccesos().get(j).isEscritura()
+                                || plataforma.getDocumentos().get(i).getAccesos().get(j).isLectura()
+                                || plataforma.getDocumentos().get(i).getAccesos().get(j).isComentario())
                         && idDoc == plataforma.getDocumentos().get(i).getIdDoc()) {
                     return true;
                 }
@@ -252,6 +285,8 @@ public class Controlador {
             for (int i = 0; i < usuarios.size(); i++) {
                 if (usuarios.get(i).getUsername().equals(usuario)) {
                     System.out.println("ESE USUARIO YA EXISTE\n");
+                    paso1.close();
+                    paso2.close();
                     return;
                 }
             }
@@ -271,6 +306,8 @@ public class Controlador {
             for (int i = 0; i < usuarios.size(); i++) {
                 if (usuarios.get(i).getUsername().equals(usuario) && usuarios.get(i).getPassword().equals(password)) {
                     onlineUser = usuario;
+                    paso1.close();
+                    paso2.close();
                     return;
                 }
             }
@@ -397,21 +434,87 @@ public class Controlador {
         }
     }
 
-    public void search(String text){
-        if(plataforma.getDocumentos().isEmpty()){
+    /**
+     *
+     * @param text
+     */
+    public void search(String text) {
+        if (plataforma.getDocumentos().isEmpty()) {
             System.out.println("No existen documentos para buscar\n");
-        }
-        else{
+        } else {
             System.out.println("El texto ingresado se encuentra en: \n");
-            for(int i = 0; i < plataforma.getDocumentos().size(); i++){
-                if(checkAnyPermission(plataforma.getDocumentos().get(i).getIdDoc()) || checkOwnership(plataforma.getDocumentos().get(i).getIdDoc())){
-                    if(plataforma.getDocumentos().get(i).getTextoDoc().contains(text)){
+            for (int i = 0; i < plataforma.getDocumentos().size(); i++) {
+                if (checkAnyPermission(plataforma.getDocumentos().get(i).getIdDoc())
+                        || checkOwnership(plataforma.getDocumentos().get(i).getIdDoc())) {
+                    if (plataforma.getDocumentos().get(i).getTextoDoc().contains(text)) {
                         System.out.println(plataforma.getDocumentos().get(i).getNombreDoc() + "\n");
                     }
-                    
                 }
             }
         }
     }
 
+    /**
+     *
+     * @return
+     */
+    public String editorToString() {
+        String texto = "Documentos: \n";
+        String output = "";
+        if (getOnlineUser() == "") {
+            if (plataforma.getDocumentos().isEmpty()) {
+                return output;
+            } else {
+                for (int i = 0; i < plataforma.getDocumentos().size(); i++) {
+                    Documento doc = plataforma.getDocumentos().get(i);
+                    output = texto.concat("ID: ").concat(String.valueOf(i)).concat("\nNombre del documento: ")
+                            .concat(doc.getNombreDoc()).concat("\nPropietario: ").concat(getOwnership(i))
+                            .concat("\nTexto: ").concat(doc.getTextoDoc()).concat("\nNumero de versiones: ")
+                            .concat(String.valueOf(doc.getVersiones().size()))
+                            .concat("\n");
+                    texto = output;
+                }
+                return output;
+            }
+        } else {
+            texto = "";
+            for (int j = 0; j < plataforma.getUsuarios().size(); j++) {
+                if (plataforma.getUsuarios().get(j).getUsername().equals(getOnlineUser())) {
+                    Usuario user = plataforma.getUsuarios().get(j);
+                    output = texto.concat("Usuario: ").concat(user.getUsername()).concat("\nFecha de creacion: ")
+                            .concat(user.getDate().toString()).concat("\n");
+                    texto = output;
+                }
+            }
+            if (plataforma.getDocumentos().isEmpty()) {
+                return output;
+            } else {
+                output = texto.concat("Documentos: \n");
+                texto = output;
+                for (int l = 0; l < plataforma.getDocumentos().size(); l++) {
+                    if (checkOwnership(l) || checkAnyPermission(l)) {
+                        Documento doc = plataforma.getDocumentos().get(l);
+                        output = texto.concat("ID: ").concat(String.valueOf(l)).concat("\nNombre del documento: ")
+                                .concat(doc.getNombreDoc()).concat("\nAccesos: \n");
+                        texto = output;
+                        for (int k = 0; k < doc.getAccesos().size(); k++) {
+                            output = texto.concat(doc.getAccesos().get(k).toString());
+                            texto = output;
+                        }
+                        output = texto.concat("\nTexto: ").concat(doc.getTextoDoc()).concat("\nNumero de versiones: ")
+                                .concat(String.valueOf(doc.getVersiones().size()))
+                                .concat("\n");
+                        texto = output;
+                    }
+                }
+                return output;
+            }
+        }
+    }
+    public void PrintEditor(String Contenido){
+        System.out.println(Contenido);
+    }
+    public void visualize(){
+        PrintEditor(editorToString());
+    }
 }

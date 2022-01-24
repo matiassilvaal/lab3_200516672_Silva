@@ -94,7 +94,10 @@ public class Acceso {
 
     @Override
     public String toString() {
-        return "Acceso:" + "nombre:" + nombre + ", lectura:" + lectura + ", escritura:" + escritura + ", comentario:" + comentario + '\n';
+        String r1 = lectura ? "Si" : "No";
+        String r2 = escritura ? "Si" : "No";
+        String r3 = comentario ? "Si" : "No";
+        return "Usuario:" + nombre + ", Lectura:" + r1 + ", Escritura:" + r2 + ", Comentario:" + r3 + '\n';
     }
 
 }

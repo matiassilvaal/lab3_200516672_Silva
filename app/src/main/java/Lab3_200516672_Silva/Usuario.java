@@ -17,9 +17,9 @@ public class Usuario {
 
     /**
      *
-     * @param username
-     * @param password
+     * @param string
      * @param date
+     * @param string1
      */
     public Usuario(String username, String password, Date date) {
         this.username = username;

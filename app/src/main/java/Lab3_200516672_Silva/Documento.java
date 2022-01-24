@@ -20,11 +20,12 @@ public class Documento {
 
     /**
      *
-     * @param IdDoc
-     * @param nombreDoc
+     * @param i
+     * @param string
      * @param textoDoc
-     * @param fechaDeCreacion
+     * @param string1
      * @param fechaDeModificacion
+     * @param date1
      */
     public Documento(int IdDoc, String nombreDoc, String textoDoc, Date fechaDeCreacion, Date fechaDeModificacion) {
         this.IdDoc = IdDoc;
