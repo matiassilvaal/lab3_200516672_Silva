@@ -2,10 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Lab3_200516672_Silva;
+package clases;
 
 /**
- *
+ * Clase que representa los accesos (permisos) de los documentos
+ * Cada acceso tiene la posibilidad de tener lectura, escritura y comentarios o varios al mismo tiempo
  * @author Matias
  */
 public class Acceso {
@@ -15,11 +16,11 @@ public class Acceso {
     private boolean comentario;
 
     /**
-     *
-     * @param nombre
-     * @param lectura
-     * @param escritura
-     * @param comentario
+     * 
+     * @param nombre Usuario al que pertenece el acceso
+     * @param lectura Tiene o no tiene permiso lectura
+     * @param escritura Tiene o no tiene permiso escritura
+     * @param comentario Tiene o no tiene permiso comentario
      */
     public Acceso(String nombre, boolean lectura, boolean escritura, boolean comentario) {
         this.nombre = nombre;
@@ -29,7 +30,7 @@ public class Acceso {
     }
 
     /**
-     *
+     * Obtiene el usuario de un acceso
      * @return
      */
     public String getNombre() {
@@ -37,7 +38,7 @@ public class Acceso {
     }
 
     /**
-     *
+     * Obtiene si el acceso tiene lectura
      * @return
      */
     public boolean isLectura() {
@@ -45,7 +46,7 @@ public class Acceso {
     }
 
     /**
-     *
+     * Obtiene si el acceso tiene escritura
      * @return
      */
     public boolean isEscritura() {
@@ -53,7 +54,7 @@ public class Acceso {
     }
 
     /**
-     *
+     * Obtiene si el acceso tiene comentario
      * @return
      */
     public boolean isComentario() {
@@ -61,37 +62,40 @@ public class Acceso {
     }
 
     /**
-     *
-     * @param nombre
+     * Cambia el nombre del usuario en el acceso
+     * @param nombre Nombre de usuario
      */
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
     /**
-     *
-     * @param lectura
+     * Cambia el permiso de lectura de un usuario
+     * @param lectura True or false
      */
     public void setLectura(boolean lectura) {
         this.lectura = lectura;
     }
 
     /**
-     *
-     * @param escritura
+     * Cambia el permiso de escritura de un usuario
+     * @param escritura True or false
      */
     public void setEscritura(boolean escritura) {
         this.escritura = escritura;
     }
 
     /**
-     *
-     * @param comentario
+     * Cambia el permiso de comentario de un usuario
+     * @param comentario True or false
      */
     public void setComentario(boolean comentario) {
         this.comentario = comentario;
     }
-
+     /**
+     * Obtiene el acceso en modo String
+     * @return String del acceso pasado a texto
+     */
     @Override
     public String toString() {
         String r1 = lectura ? "Si" : "No";
